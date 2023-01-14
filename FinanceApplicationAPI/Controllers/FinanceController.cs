@@ -1,4 +1,4 @@
-﻿using FinanceApplicationAPI.Models;
+﻿using FinanceApplicationAPI.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinanceApplicationAPI.Controllers
@@ -9,9 +9,9 @@ namespace FinanceApplicationAPI.Controllers
     {
         [HttpGet]
         [Route("Test")]
-        public TransactionDataModel GetTest()
+        public TransactionModel GetTest()
         {
-            var test = new TransactionDataModel
+            var test = new TransactionModel
             {
                 Amount = 1,
                 DateTime = DateTime.Now,
