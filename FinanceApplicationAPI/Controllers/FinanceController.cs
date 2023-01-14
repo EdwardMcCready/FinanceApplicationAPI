@@ -14,10 +14,7 @@ namespace FinanceApplicationAPI.Controllers
             var test = new TransactionModel
             {
                 Amount = 1,
-                DateTime = DateTime.Now,
                 Description = "Test",
-                Type = false,
-                Year = 1
             };
 
             return test;
