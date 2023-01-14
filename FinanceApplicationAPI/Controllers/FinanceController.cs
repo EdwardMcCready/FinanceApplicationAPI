@@ -9,9 +9,9 @@ namespace FinanceApplicationAPI.Controllers
     {
         [HttpGet]
         [Route("Test")]
-        public TransactionModel GetTest()
+        public Transaction GetTest()
         {
-            var test = new TransactionModel
+            var test = new Transaction
             {
                 Amount = 1,
                 Description = "Test",

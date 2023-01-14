@@ -2,7 +2,7 @@
 
 namespace FinanceApplicationAPI.Data.Models
 {
-    public class TransactionModel
+    public class Transaction
     {
         public string? TransactionID { get; set; }
 
@@ -15,7 +15,7 @@ namespace FinanceApplicationAPI.Data.Models
         public double Amount { get; set; }
 
         public string? UserID { get; set; }
-        public UserModel? User { get; set; }
+        public Account? User { get; set; }
 
     }
 }

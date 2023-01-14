@@ -6,8 +6,8 @@ namespace FinanceApplicationAPI.DataAccess.Context
 {
     public class APIDBContext : DbContext
     {
-        public DbSet<TransactionModel> Transactions { get; set; }
-        public DbSet<UserModel> Users { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<Account> Users { get; set; }
 
         public APIDBContext(DbContextOptions<APIDBContext> options) : base(options) 
         {
@@ -15,29 +15,62 @@ namespace FinanceApplicationAPI.DataAccess.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserModel>(entity =>
+            modelBuilder.Entity<Account>(entity =>
             {
                 entity.ToTable("Users");
 
-                entity.HasKey(e => e.UserID);
+                entity.HasKey(e => e.AccountID);
 
-                entity.Property(e => e.UserID)
-                      .HasMaxLength(36)
-                      .HasColumnName("UserID"); ;
+                entity.Property(e => e.AccountID)
+                      .HasColumnName("UserID")
+                      .HasColumnType("varchar")
+                      .HasMaxLength(36);
 
-                entity.Property(e => e.UserName)
-                        .HasMaxLength(50)
-                        .HasColumnName("UserName");
+                entity.Property(e => e.AccountName)
+                        .HasColumnName("UserName")
+                        .HasColumnType("varchar")
+                        .HasMaxLength(50);
 
             });
 
-            modelBuilder.Entity<TransactionModel>(entity =>
+            modelBuilder.Entity<Transaction>(entity =>
             {
                 entity.ToTable("Transactions");
 
+                entity.Property(e => e.TransactionID)
+                    .HasColumnName("TransactionID")
+                    .HasColumnType("varchar")
+                    .HasMaxLength(36);
+
                 entity.Property(e => e.Date)
+                    .HasColumnName("Date")
+                    .HasColumnType("datetime")
                     .HasMaxLength(50);
 
+                entity.Property(e => e.Description)
+                    .HasColumnName("Description")
+                    .HasColumnType("varchar")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.TransactionType)
+                    .HasColumnName("TransactionType")
+                    .HasColumnType("integer")
+                    .HasMaxLength(1);
+
+                entity.Property(e => e.Type)
+                    .HasColumnName("Type")
+                    .HasColumnType("varchar")
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.Amount)
+                    .HasColumnName("Amount")
+                    .HasColumnType("integer")
+                     .HasMaxLength(20);
+
+                entity.Property(e => e.UserID)
+                    .HasColumnName("UserID")
+                    .HasColumnType("varchar")
+                    .HasMaxLength(36);
 
                 entity.HasOne(t => t.User)
                     .WithMany(x => x.Transactions)
