@@ -22,7 +22,7 @@ namespace FinanceApplicationAPI.DataAccess.Context
                 entity.HasKey(e => e.AccountID);
 
                 entity.Property(e => e.AccountID)
-                      .HasColumnName("AccountID")
+                      .HasColumnName("ID")
                       .HasColumnType("varchar")
                       .HasMaxLength(36);
 
@@ -30,7 +30,6 @@ namespace FinanceApplicationAPI.DataAccess.Context
                         .HasColumnName("UserName")
                         .HasColumnType("varchar")
                         .HasMaxLength(50);
-
 
                 entity.HasMany(t => t.Transactions)
                     .WithOne(a => a.Account)
@@ -45,7 +44,7 @@ namespace FinanceApplicationAPI.DataAccess.Context
                 entity.ToTable("Transactions");
 
                 entity.Property(e => e.TransactionID)
-                    .HasColumnName("TransactionID")
+                    .HasColumnName("ID")
                     .HasColumnType("varchar")
                     .HasMaxLength(36);
 
@@ -54,30 +53,72 @@ namespace FinanceApplicationAPI.DataAccess.Context
                     .HasColumnType("datetime")
                     .HasMaxLength(50);
 
-                entity.Property(e => e.Description)
-                    .HasColumnName("Description")
-                    .HasColumnType("varchar")
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.TransactionType)
-                    .HasColumnName("TransactionType")
-                    .HasColumnType("integer")
-                    .HasMaxLength(1);
-
-                entity.Property(e => e.Type)
-                    .HasColumnName("Type")
-                    .HasColumnType("varchar")
-                    .HasMaxLength(100);
+                entity.Property(e => e.FlowType)
+                   .HasColumnName("FlowType")
+                   .HasColumnType("integer")
+                   .HasMaxLength(1);
 
                 entity.Property(e => e.Amount)
                     .HasColumnName("Amount")
                     .HasColumnType("integer")
-                     .HasMaxLength(20);
+                    .HasMaxLength(20);
+
+                entity.Property(e => e.TransactionNameID)
+                    .HasColumnName("TransactionNameID")
+                    .HasColumnType("varchar")
+                    .HasMaxLength(36);
+
+                entity.Property(e => e.TransactionTypeID)
+                    .HasColumnName("TransactionTypeID")
+                    .HasColumnType("varchar")
+                    .HasMaxLength(36);
 
                 entity.Property(e => e.AccountID)
                     .HasColumnName("AccountID")
                     .HasColumnType("varchar")
                     .HasMaxLength(36);
+
+                entity.HasOne(t => t.TransactionName)
+                     .WithMany(t => t.Transactions)
+                     .HasForeignKey(x => x.TransactionNameID)
+                     .OnDelete(DeleteBehavior.SetNull)
+                     .HasConstraintName("FK_Transaction_Name");
+
+                entity.HasOne(t => t.TransactionType)
+                    .WithMany(t => t.Transactions)
+                    .HasForeignKey(x => x.TransactionTypeID)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .HasConstraintName("FK_Transaction_Type");
+            });
+
+            modelBuilder.Entity<TransactionName>(entity =>
+            {
+                entity.ToTable("TransactionName");
+
+                entity.Property(e => e.TransactionNameID)
+                    .HasColumnName("ID")
+                    .HasColumnType("varchar")
+                    .HasMaxLength(36);
+
+                entity.Property(e => e.Name)
+                    .HasColumnName("Name")
+                    .HasColumnType("varchar")
+                    .HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<TransactionType>(entity =>
+            {
+                entity.ToTable("TransactionType");
+
+                entity.Property(e => e.TransactionTypeID)
+                    .HasColumnName("ID")
+                    .HasColumnType("varchar")
+                    .HasMaxLength(36);
+
+                entity.Property(e => e.Type)
+                    .HasColumnName("Type")
+                    .HasColumnType("varchar")
+                    .HasMaxLength(50);
             });
         }
     }
