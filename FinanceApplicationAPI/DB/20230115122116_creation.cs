@@ -6,21 +6,21 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FinanceApplicationAPI.DB
 {
     /// <inheritdoc />
-    public partial class IntialDatabaseSchema : Migration
+    public partial class creation : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "Accounts",
                 columns: table => new
                 {
-                    UserID = table.Column<string>(type: "varchar", maxLength: 36, nullable: false),
+                    AccountID = table.Column<string>(type: "varchar", maxLength: 36, nullable: false),
                     UserName = table.Column<string>(type: "varchar", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserID);
+                    table.PrimaryKey("PK_Accounts", x => x.AccountID);
                 });
 
             migrationBuilder.CreateTable(
@@ -33,22 +33,22 @@ namespace FinanceApplicationAPI.DB
                     TransactionType = table.Column<bool>(type: "integer", maxLength: 1, nullable: false),
                     Type = table.Column<string>(type: "varchar", maxLength: 100, nullable: true),
                     Amount = table.Column<double>(type: "integer", maxLength: 20, nullable: false),
-                    UserID = table.Column<string>(type: "varchar", maxLength: 36, nullable: true)
+                    AccountID = table.Column<string>(type: "varchar", maxLength: 36, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Transactions", x => x.TransactionID);
                     table.ForeignKey(
-                        name: "FK_User_Transactions",
-                        column: x => x.UserID,
-                        principalTable: "Users",
-                        principalColumn: "UserID");
+                        name: "FK_Account_Transactions",
+                        column: x => x.AccountID,
+                        principalTable: "Accounts",
+                        principalColumn: "AccountID");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Transactions_UserID",
+                name: "IX_Transactions_AccountID",
                 table: "Transactions",
-                column: "UserID");
+                column: "AccountID");
         }
 
         /// <inheritdoc />
@@ -58,7 +58,7 @@ namespace FinanceApplicationAPI.DB
                 name: "Transactions");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "Accounts");
         }
     }
 }

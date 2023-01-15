@@ -362,3 +362,5 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 FinanceApplicationAPI/DB/FinanceDB.db
+FinanceApplicationAPI/DB/FinanceDB.db-shm
+FinanceApplicationAPI/DB/FinanceDB.db-wal

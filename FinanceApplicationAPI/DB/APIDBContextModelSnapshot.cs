@@ -24,6 +24,11 @@ namespace FinanceApplicationAPI.DB
                         .HasColumnType("varchar")
                         .HasColumnName("TransactionID");
 
+                    b.Property<string>("AccountID")
+                        .HasMaxLength(36)
+                        .HasColumnType("varchar")
+                        .HasColumnName("AccountID");
+
                     b.Property<double>("Amount")
                         .HasMaxLength(20)
                         .HasColumnType("integer")
@@ -49,14 +54,9 @@ namespace FinanceApplicationAPI.DB
                         .HasColumnType("varchar")
                         .HasColumnName("Type");
 
-                    b.Property<string>("UserID")
-                        .HasMaxLength(36)
-                        .HasColumnType("varchar")
-                        .HasColumnName("UserID");
-
                     b.HasKey("TransactionID");
 
-                    b.HasIndex("UserID");
+                    b.HasIndex("AccountID");
 
                     b.ToTable("Transactions", (string)null);
                 });
@@ -66,7 +66,7 @@ namespace FinanceApplicationAPI.DB
                     b.Property<string>("AccountID")
                         .HasMaxLength(36)
                         .HasColumnType("varchar")
-                        .HasColumnName("UserID");
+                        .HasColumnName("AccountID");
 
                     b.Property<string>("AccountName")
                         .HasMaxLength(50)
@@ -75,17 +75,17 @@ namespace FinanceApplicationAPI.DB
 
                     b.HasKey("AccountID");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("FinanceApplicationAPI.Data.Models.Transaction", b =>
                 {
-                    b.HasOne("FinanceApplicationAPI.DataAccess.Models.Account", "User")
+                    b.HasOne("FinanceApplicationAPI.DataAccess.Models.Account", "Account")
                         .WithMany("Transactions")
-                        .HasForeignKey("UserID")
-                        .HasConstraintName("FK_User_Transactions");
+                        .HasForeignKey("AccountID")
+                        .HasConstraintName("FK_Account_Transactions");
 
-                    b.Navigation("User");
+                    b.Navigation("Account");
                 });
 
             modelBuilder.Entity("FinanceApplicationAPI.DataAccess.Models.Account", b =>

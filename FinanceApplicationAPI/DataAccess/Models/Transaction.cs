@@ -11,8 +11,8 @@ namespace FinanceApplicationAPI.Data.Models
         public string? Type { get; set; }
         public double Amount { get; set; }
 
-        public string? UserID { get; set; }
-        public Account? User { get; set; }
+        public string? AccountID { get; set; }
+        public Account? Account { get; set; }
 
     }
 }

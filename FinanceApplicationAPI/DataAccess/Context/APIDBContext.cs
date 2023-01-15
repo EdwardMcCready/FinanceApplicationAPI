@@ -7,7 +7,7 @@ namespace FinanceApplicationAPI.DataAccess.Context
     public class APIDBContext : DbContext
     {
         public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<Account> Users { get; set; }
+        public DbSet<Account> Accounts { get; set; }
 
         public APIDBContext(DbContextOptions<APIDBContext> options) : base(options) 
         {
@@ -17,12 +17,12 @@ namespace FinanceApplicationAPI.DataAccess.Context
         {
             modelBuilder.Entity<Account>(entity =>
             {
-                entity.ToTable("Users");
+                entity.ToTable("Accounts");
 
                 entity.HasKey(e => e.AccountID);
 
                 entity.Property(e => e.AccountID)
-                      .HasColumnName("UserID")
+                      .HasColumnName("AccountID")
                       .HasColumnType("varchar")
                       .HasMaxLength(36);
 
@@ -30,6 +30,13 @@ namespace FinanceApplicationAPI.DataAccess.Context
                         .HasColumnName("UserName")
                         .HasColumnType("varchar")
                         .HasMaxLength(50);
+
+
+                entity.HasMany(t => t.Transactions)
+                    .WithOne(a => a.Account)
+                    .HasForeignKey(x => x.AccountID)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Account_Transactions");
 
             });
 
@@ -67,16 +74,10 @@ namespace FinanceApplicationAPI.DataAccess.Context
                     .HasColumnType("integer")
                      .HasMaxLength(20);
 
-                entity.Property(e => e.UserID)
-                    .HasColumnName("UserID")
+                entity.Property(e => e.AccountID)
+                    .HasColumnName("AccountID")
                     .HasColumnType("varchar")
                     .HasMaxLength(36);
-
-                entity.HasOne(t => t.User)
-                    .WithMany(x => x.Transactions)
-                    .HasForeignKey(x => x.UserID)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_User_Transactions");
             });
         }
     }
