@@ -10,12 +10,15 @@ namespace FinanceApplicationAPI.Data.Models
         public bool FlowType { get; set; }
         public double Amount { get; set; }
 
+        // TransactionName FK
         public string? TransactionNameID { get; set; }
         public TransactionName? TransactionName { get; set; }
 
+        // TransactionType FK
         public string? TransactionTypeID { get; set; }
         public TransactionType? TransactionType { get; set; }
 
+        // Account FK
         public string? AccountID { get; set; }
         public Account? Account { get; set; }
 

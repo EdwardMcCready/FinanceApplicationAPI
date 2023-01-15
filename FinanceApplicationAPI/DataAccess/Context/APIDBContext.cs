@@ -13,6 +13,7 @@ namespace FinanceApplicationAPI.DataAccess.Context
         {
         }
 
+        // Updated this to 3NF to avoid ickiness
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Account>(entity =>
