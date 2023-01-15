@@ -83,6 +83,7 @@ namespace FinanceApplicationAPI.DB
                     b.HasOne("FinanceApplicationAPI.DataAccess.Models.Account", "Account")
                         .WithMany("Transactions")
                         .HasForeignKey("AccountID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("FK_Account_Transactions");
 
                     b.Navigation("Account");

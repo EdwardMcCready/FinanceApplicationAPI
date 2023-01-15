@@ -42,7 +42,8 @@ namespace FinanceApplicationAPI.DB
                         name: "FK_Account_Transactions",
                         column: x => x.AccountID,
                         principalTable: "Accounts",
-                        principalColumn: "AccountID");
+                        principalColumn: "AccountID",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

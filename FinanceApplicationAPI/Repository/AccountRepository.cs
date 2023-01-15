@@ -37,7 +37,7 @@ namespace FinanceApplicationAPI.Repository
         public async Task<Account> Delete(string id)
         {
             var Account = new Account { AccountID = id };
-            context.Remove(id);
+            context.Remove(Account);
 
             await context.SaveChangesAsync();
 

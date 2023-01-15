@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceApplicationAPI.DB
 {
     [DbContext(typeof(APIDBContext))]
-    [Migration("20230115122116_creation")]
+    [Migration("20230115154221_creation")]
     partial class creation
     {
         /// <inheritdoc />
@@ -86,6 +86,7 @@ namespace FinanceApplicationAPI.DB
                     b.HasOne("FinanceApplicationAPI.DataAccess.Models.Account", "Account")
                         .WithMany("Transactions")
                         .HasForeignKey("AccountID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("FK_Account_Transactions");
 
                     b.Navigation("Account");

@@ -35,7 +35,7 @@ namespace FinanceApplicationAPI.DataAccess.Context
                 entity.HasMany(t => t.Transactions)
                     .WithOne(a => a.Account)
                     .HasForeignKey(x => x.AccountID)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_Account_Transactions");
 
             });
