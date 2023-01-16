@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApplicationAPI.Repository
 {
-    public class AccountRepository : IRepository<Account>
+    public class AccountRepository : IRepository<Account>, IDisposable
     {
         private readonly APIDBContext context;
         public AccountRepository(APIDBContext context) 
@@ -42,6 +42,18 @@ namespace FinanceApplicationAPI.Repository
             await context.SaveChangesAsync();
 
             return Account;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public virtual void Dispose(bool disposing)
+        {
+            if(disposing)
+                context?.Dispose();
         }
     }
 }
