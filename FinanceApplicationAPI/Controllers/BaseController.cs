@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.Linq.Expressions;
 
 namespace FinanceApplicationAPI.Controllers
 {
@@ -14,27 +15,78 @@ namespace FinanceApplicationAPI.Controllers
     public class BaseController<T> : Controller where T : class
     {
         private readonly IRepository<T> repos;
+        private readonly ILogger logger;
 
-        public BaseController(IRepository<T> repos)
+        public BaseController(IRepository<T> repos, ILogger<BaseController<T>> logger)
         {
             this.repos = repos;
+            this.logger = logger;
         }
 
         // Not using IQueryable as I don't want the DB access to leak to frontend
         [HttpGet]
-        public async Task<List<T>> GetAllUsers()
+        public async Task<ActionResult> GetAllUsers()
         {
-            return await repos.GetAll();
+            List<T> entities;
+            try
+            {
+                entities = await repos.GetAll();
+            }
+            catch (Exception? ex)
+            {
+                logger.LogInformation($"Get All {typeof(T).Name}s - {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+            return Ok(entities);
         }
-        [HttpPost]
 
-        //    Task<T> Get(string id);
-        //    Task<T> Update(T entity);
-
-        [Route("Delete")]
-        public async Task<T> Delete(string id)
+        [HttpGet]
+        [Route("Get")]
+        public async Task<ActionResult> Get(string id)
         {
-            return await repos.Delete(id);
+            T entity;
+            try
+            {
+                entity = await repos.Get(id);
+            }
+            catch (Exception? ex)
+            {
+                logger.LogInformation($"Get {typeof(T).Name} - {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+            return Ok(entity);
+        }
+
+        [HttpPost]
+        [Route("Update")]
+        public async Task<ActionResult> Update(T entity)
+        {
+            try
+            {
+                await Task.Run(() => repos.Update(entity));
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation($"Update {typeof(T).Name}s - {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("Delete")]
+        public async Task<ActionResult> Delete(string id)
+        {
+            try
+            {
+                await Task.Run(() => repos.Delete(id));
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation($"Delete {typeof(T).Name} - {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+            return Ok();
         }
 
     }

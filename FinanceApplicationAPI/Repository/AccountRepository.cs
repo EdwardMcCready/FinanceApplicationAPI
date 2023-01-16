@@ -1,6 +1,9 @@
 ﻿using FinanceApplicationAPI.DataAccess.Context;
 using FinanceApplicationAPI.DataAccess.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace FinanceApplicationAPI.Repository
 {
@@ -16,9 +19,10 @@ namespace FinanceApplicationAPI.Repository
         {
             return await context.Accounts.ToListAsync();
         }
-        public Task<Account> Get(string id)
+        public async Task<Account> Get(string id)
         {
-            throw new NotImplementedException();
+            var account = await context.Accounts.FindAsync(id);
+            return account ?? new Account();
         }
 
         public async Task<Account> Add(Account account)
@@ -29,19 +33,19 @@ namespace FinanceApplicationAPI.Repository
             return account;
         }
 
-        public Task<Account> Update(Account entity)
+        public async void Update(Account entity)
         {
-            throw new NotImplementedException();
+            context.Accounts.Update(entity);
+
+            await context.SaveChangesAsync();
         }
 
-        public async Task<Account> Delete(string id)
+        public async void Delete(string id)
         {
             var Account = new Account { AccountID = id };
             context.Remove(Account);
 
             await context.SaveChangesAsync();
-
-            return Account;
         }
 
         public void Dispose()
@@ -53,7 +57,7 @@ namespace FinanceApplicationAPI.Repository
         public virtual void Dispose(bool disposing)
         {
             if(disposing)
-                context?.Dispose();
+                context.Dispose();
         }
     }
 }
