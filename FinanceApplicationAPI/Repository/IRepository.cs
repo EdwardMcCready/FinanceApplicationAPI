@@ -8,6 +8,6 @@ namespace FinanceApplicationAPI.Repository
         Task<T> Get(string id);
         Task<T> Add(T entity);
         void Update(T entity);
-        void Delete(string id);
+        void Delete(T entity);
     }
 }

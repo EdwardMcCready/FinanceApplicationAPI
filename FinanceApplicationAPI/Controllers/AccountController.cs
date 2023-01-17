@@ -1,6 +1,7 @@
 ﻿using FinanceApplicationAPI.DataAccess.Models;
 using FinanceApplicationAPI.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 
 namespace FinanceApplicationAPI.Controllers
@@ -9,10 +10,10 @@ namespace FinanceApplicationAPI.Controllers
     [Route("Account")]
     public class AccountController : BaseController<Account>
     {
-        private readonly AccountRepository repos;
+        private readonly Repository<Account> repos;
         private readonly ILogger<AccountController> logger;
 
-        public AccountController(AccountRepository repos,
+        public AccountController(Repository<Account> repos,
              ILogger<AccountController> logger) : base(repos, logger)
         {
             this.repos = repos;
@@ -42,6 +43,22 @@ namespace FinanceApplicationAPI.Controllers
                 return StatusCode(500, "Internal Server Error");
             }
             return Ok(entity);
+        }
+
+        [HttpPost]
+        [Route("Delete")]
+        public async Task<ActionResult> Delete([FromBody] Account account)
+        {
+            try
+            {
+                await Task.Run(() => repos.Delete(account));
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation($"Delete {typeof(Account).Name} - {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+            return Ok();
         }
     }
 

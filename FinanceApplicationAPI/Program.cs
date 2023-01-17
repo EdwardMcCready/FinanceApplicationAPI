@@ -1,5 +1,6 @@
 using FinanceApplicationAPI.Controllers;
 using FinanceApplicationAPI.DataAccess.Context;
+using FinanceApplicationAPI.DataAccess.Models;
 using FinanceApplicationAPI.Repository;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<APIDBContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<AccountRepository>();
+builder.Services.AddScoped<Repository<Account>>();
 builder.Services.AddLogging();
 
 var app = builder.Build();

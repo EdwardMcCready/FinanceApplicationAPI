@@ -4,47 +4,46 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using Microsoft.AspNetCore.Http;
+using System.Linq.Expressions;
 
 namespace FinanceApplicationAPI.Repository
 {
-    public class AccountRepository : IRepository<Account>, IDisposable
+    public class Repository<T> : IRepository<T>, IDisposable where T : class, new()
     {
         private readonly APIDBContext context;
-        public AccountRepository(APIDBContext context) 
+        public Repository(APIDBContext context) 
         {
             this.context = context;
         }
 
-        public async Task<List<Account>> GetAll()
+        public async Task<List<T>> GetAll()
         {
-            return await context.Accounts.ToListAsync();
-        }
-        public async Task<Account> Get(string id)
-        {
-            var account = await context.Accounts.FindAsync(id);
-            return account ?? new Account();
+            return await context.Set<T>().ToListAsync();
         }
 
-        public async Task<Account> Add(Account account)
+        public async Task<T> Get(string id)
         {
-            context.Add(account);
+            var account = await context.FindAsync<T>(id);
+            return account ?? new T();
+        }
+
+        public async Task<T> Add(T entity)
+        {
+            context.Add(entity);
             await context.SaveChangesAsync();
 
-            return account;
+            return entity;
         }
 
-        public async void Update(Account entity)
+        public async void Update(T entity)
         {
-            context.Accounts.Update(entity);
-
+            context.Update(entity);
             await context.SaveChangesAsync();
         }
 
-        public async void Delete(string id)
+        public async void Delete(T entity)
         {
-            var Account = new Account { AccountID = id };
-            context.Remove(Account);
-
+            context.Remove(entity);
             await context.SaveChangesAsync();
         }
 
@@ -59,5 +58,6 @@ namespace FinanceApplicationAPI.Repository
             if(disposing)
                 context.Dispose();
         }
+
     }
 }

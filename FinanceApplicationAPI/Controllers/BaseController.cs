@@ -72,22 +72,5 @@ namespace FinanceApplicationAPI.Controllers
             }
             return Ok();
         }
-
-        [HttpPost]
-        [Route("Delete")]
-        public async Task<ActionResult> Delete(string id)
-        {
-            try
-            {
-                await Task.Run(() => repos.Delete(id));
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation($"Delete {typeof(T).Name} - {ex.Message}");
-                return StatusCode(500, "Internal Server Error");
-            }
-            return Ok();
-        }
-
     }
 }

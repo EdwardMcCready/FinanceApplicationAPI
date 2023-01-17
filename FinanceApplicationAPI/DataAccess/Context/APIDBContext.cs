@@ -6,9 +6,6 @@ namespace FinanceApplicationAPI.DataAccess.Context
 {
     public class APIDBContext : DbContext
     {
-        public DbSet<Transaction> Transactions { get; set; }
-        public DbSet<Account> Accounts { get; set; }
-
         public APIDBContext(DbContextOptions<APIDBContext> options) : base(options) 
         {
         }
