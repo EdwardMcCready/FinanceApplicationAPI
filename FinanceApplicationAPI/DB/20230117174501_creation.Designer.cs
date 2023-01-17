@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinanceApplicationAPI.DB
 {
     [DbContext(typeof(APIDBContext))]
-    [Migration("20230115204719_creation")]
+    [Migration("20230117174501_creation")]
     partial class creation
     {
         /// <inheritdoc />

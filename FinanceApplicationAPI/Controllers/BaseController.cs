@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.ComponentModel;
 using System.Linq.Expressions;
 
 namespace FinanceApplicationAPI.Controllers
@@ -25,7 +26,7 @@ namespace FinanceApplicationAPI.Controllers
 
         // Not using IQueryable as I don't want the DB access to leak to frontend
         [HttpGet]
-        public async Task<ActionResult> GetAllUsers()
+        public virtual async Task<ActionResult> GetAllUsers()
         {
             List<T> entities;
             try
@@ -68,6 +69,22 @@ namespace FinanceApplicationAPI.Controllers
             catch (Exception ex)
             {
                 logger.LogInformation($"Update {typeof(T).Name}s - {ex.Message}");
+                return StatusCode(500, "Internal Server Error");
+            }
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("Delete")]
+        public async Task<ActionResult> Delete([FromBody] T entity)
+        {
+            try
+            {
+                await Task.Run(() => repos.Delete(entity));
+            }
+            catch (Exception ex)
+            {
+                logger.LogInformation($"Delete {typeof(T).Name} - {ex.Message}");
                 return StatusCode(500, "Internal Server Error");
             }
             return Ok();

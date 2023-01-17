@@ -1,6 +1,4 @@
-﻿using FinanceApplicationAPI.Data.Models;
-
-namespace FinanceApplicationAPI.DataAccess.Models
+﻿namespace FinanceApplicationAPI.DataAccess.Models
 {
     public class TransactionName
     {

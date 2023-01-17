@@ -3,6 +3,7 @@ using FinanceApplicationAPI.DataAccess.Context;
 using FinanceApplicationAPI.DataAccess.Models;
 using FinanceApplicationAPI.Repository;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<APIDBContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<Repository<Account>>();
+builder.Services.AddScoped<Repository<Transaction>>();
 builder.Services.AddLogging();
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
 
 var app = builder.Build();
 

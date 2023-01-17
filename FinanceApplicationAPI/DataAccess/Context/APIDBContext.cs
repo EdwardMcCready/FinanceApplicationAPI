@@ -1,5 +1,4 @@
-﻿using FinanceApplicationAPI.Data.Models;
-using FinanceApplicationAPI.DataAccess.Models;
+﻿using FinanceApplicationAPI.DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApplicationAPI.DataAccess.Context
@@ -9,6 +8,10 @@ namespace FinanceApplicationAPI.DataAccess.Context
         public APIDBContext(DbContextOptions<APIDBContext> options) : base(options) 
         {
         }
+
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<TransactionName> TransanctionNames { get; set; }
+        public DbSet<TransactionType> TransanctionTypes { get; set; }
 
         // Updated this to 3NF to avoid ickiness
         protected override void OnModelCreating(ModelBuilder modelBuilder)

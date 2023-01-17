@@ -1,5 +1,4 @@
-﻿using FinanceApplicationAPI.Data.Models;
-
+﻿
 namespace FinanceApplicationAPI.DataAccess.Models
 {
     public class Account

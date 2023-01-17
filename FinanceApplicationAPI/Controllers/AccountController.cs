@@ -44,22 +44,6 @@ namespace FinanceApplicationAPI.Controllers
             }
             return Ok(entity);
         }
-
-        [HttpPost]
-        [Route("Delete")]
-        public async Task<ActionResult> Delete([FromBody] Account account)
-        {
-            try
-            {
-                await Task.Run(() => repos.Delete(account));
-            }
-            catch (Exception ex)
-            {
-                logger.LogInformation($"Delete {typeof(Account).Name} - {ex.Message}");
-                return StatusCode(500, "Internal Server Error");
-            }
-            return Ok();
-        }
     }
 
 }

@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using System.Linq.Expressions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace FinanceApplicationAPI.Repository
 {
@@ -19,6 +20,15 @@ namespace FinanceApplicationAPI.Repository
         public async Task<List<T>> GetAll()
         {
             return await context.Set<T>().ToListAsync();
+        }
+
+        // Get all data separated due to normalisation
+        public async Task<List<Transaction>> GetAllTransactions()
+        {
+            return await context.Set<Transaction>()
+                        .Include(x => x.TransactionName)
+                        .Include(x => x.TransactionType)
+                        .ToListAsync();
         }
 
         public async Task<T> Get(string id)

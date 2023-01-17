@@ -1,7 +1,8 @@
 ﻿using FinanceApplicationAPI.DataAccess.Models;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Newtonsoft.Json;
 
-namespace FinanceApplicationAPI.Data.Models
+namespace FinanceApplicationAPI.DataAccess.Models
 {
     public class Transaction
     {
